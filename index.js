@@ -1,6 +1,6 @@
 require("dotenv").config();
 const io = require("socket.io")(8900, {
-    cors: { origin: process.env.FRONTEND_URL },
+    cors: {origin:process.env.FRONTEND_URL},
 });
 
 let users = [];

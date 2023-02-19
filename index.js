@@ -1,5 +1,15 @@
+const express = require("express")
+const app = express()
+const cors = require("cors");
 require("dotenv").config();
-const io = require("socket.io")(8900, {
+
+app.use(cors());
+
+const server = app.listen(8900,
+    console.log("listening")
+    )
+
+const io = require("socket.io")(server, {
     cors: process.env.FRONTEND_URL,
 });
 
@@ -46,8 +56,10 @@ io.on("connection", (socket) => {
     // send & get msg
     socket.on("sendMessage", (sentMessage) => {
         const { message, receiverId } = sentMessage;
-        const user = getUser(receiverId);
         io.to(socket.id).emit("getMessage", message);
-        io.to(user.socketId).emit("getMessage", message);
+        const user = getUser(receiverId);
+        if (user) {
+            io.to(user.socketId).emit("getMessage", message);
+        }
     });
 });

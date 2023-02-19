@@ -5,6 +5,10 @@ require("dotenv").config();
 
 app.use(cors());
 
+app.get("/", (req, res) => {
+    res.send("OK");
+});
+
 const server = app.listen(8900,
     console.log("listening")
     )
@@ -12,6 +16,7 @@ const server = app.listen(8900,
 const io = require("socket.io")(server, {
     cors: process.env.FRONTEND_URL,
 });
+
 
 let users = [];
 
